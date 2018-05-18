@@ -1,0 +1,102 @@
+1. CV: keras xgb
+2. 不均衡样本处理 SMOTE
+3. ID特征使用
+4. KNN
+5. MinMaxScaler: lgb,knn有效 xgb无效
+
+修改cv,按天cv 防止数据泄露
+按照小时分箱
+历史是否点击过
+
+
+instance_id                    int64
+item_id                        int64
+item_brand_id                  int64
+item_city_id                   int64
+item_price_level               int64
+item_sales_level               int64
+item_collected_level           int64
+item_pv_level                  int64
+user_id                        int64
+user_gender_id                 int64
+user_age_level                 int64
+user_occupation_id             int64
+user_star_level                int64
+context_id                     int64
+context_timestamp              int64
+context_page_id                int64
+shop_id                        int64
+shop_review_num_level          int64
+shop_review_positive_rate    float64
+shop_star_level                int64
+shop_score_service           float64
+shop_score_delivery          float64
+shop_score_description       float64
+is_trade                       int64
+
+baseline 使用除属性id之外的13维特征,lr使用StandardScaler
+lr 0.090882 StandardScaler 0.090882 [MinMaxScaler 0.090966
+xgb 0.089511 [146]
+lgb 0.089887 [70]
+[nn 0.0910没救]
+
+22维 除属性 instance_id
+lr 0.090661 StandardScaler 0.090661 [MinMaxScaler 0.090898
+xgb 0.089484 [170]
+lgb 0.089915 [66]
+
+23维
+lr 0.090665
+xgb 0.089526 [144]
+lgb 0.089984 [68]
+
+删除异常点
+lr 0.090688
+xgb 0.089750 [138]
+lgb 0.090055 [71]
+
+exp变换
+lr 0.090795
+xgb 0.089524 [146]
+lgb 0.089856 [69]
+
+    13维
+    LR: 2018-03-10 16:52:55 0.090882
+    LR: 2018-03-10 16:54:18 删除异常点+exp 0.090685
+    XGB: 2018-03-10 17:00:36 [146] 0.089511
+    LR: 2018-03-10 16:54:18 [70] 0.089887
+
+13维 + day + hour
+lr 0.090746
+xgb 0.089476 [154]
+lgb 0.089717 [66]
+
+13维 + hour
+lr 0.090747
+xgb 0.089430 [134]
+lgb 0.089713 [75]
+
+22维 + hour
+xgb 0.089353 [134]
+lgb 0.089735 [69]
+
+
+===============================================
+4folds
+===============================================
+baseline
+lr 0.090865
+xgb 0.089645 [130]
+lgb 0.089916 [70]
+
+4folds 22维 + hour
+lr 0.090523 [feature_proc 0.090486]
+xgb 0.089406 [137]
+lgb 0.089771 [70]
+
+4folds 13 + hour
+lr 0.090719 [feature_proc 0.090634]
+xgb 0.089459 [143]
+lgb 0.089734 [72]
+
+xgb 32+brand 0.08809250
